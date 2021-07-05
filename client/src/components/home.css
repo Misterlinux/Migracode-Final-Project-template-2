@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap');
+
+.sfondo{
+    background-image: url('../background1.jpg');
+    height: 80vh;
+}
+
+.open{
+    font-size: 100px;
+
+    color: whitesmoke;
+    font-family: 'Bungee Shade', cursive;
+}
+
+.sposto{
+    margin-right: 10px;
+}
