@@ -1,5 +1,12 @@
 Template of Migracode's Final-Project:
 
-TO DO:
+To Start:
 
--refine the cookie assigment for the user in order to limit repeated access at Login/log-in
+-cd Server
+-cd Client
+
+-in case the node_modules doesnt work just delete them and:
+
+-npm install
+
+-the mdb (boostrap) used isnt the optimal one for this kind of frontend
