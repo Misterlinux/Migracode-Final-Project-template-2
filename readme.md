@@ -9,4 +9,4 @@ To Start:
 
 -npm install
 
--the mdb (boostrap) used isnt the optimal one for this kind of frontend
+-the mdb (boostrap) used isn't the optimal one for this kind of frontend

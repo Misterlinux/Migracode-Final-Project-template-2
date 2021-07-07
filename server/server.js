@@ -23,7 +23,7 @@ const pool = new Pool({
     user: "postgres",
     host: "localhost",
     database: "postgres",
-    password: "",
+    password: "mrlzarate",
     port: 5432,
   });
 
@@ -128,11 +128,11 @@ app.post("/log", (request, response) => {
     const user = request.body.username;
     const mail = request.body.email;
     const pass = request.body.password;
-    
+
     pool
     .query('SELECT * FROM users where username=$1 or password=$2 or email=$3', [ user, pass, mail ] )
     .then((resultado) => {
-        
+
         if( resultado.rows.length > 0 ){
 
             if( resultado.rows[0].email == mail ){
@@ -182,7 +182,6 @@ app.post("/log", (request, response) => {
                 .catch((e) => console.error(e));
 
         }
-
         
     })
 
@@ -194,16 +193,19 @@ app.post('/mini', (request, response) => {
 
     const named = request.body.username;
     const access = request.body.password;
-  
+    console.log( request.body.loggedIn )
+    console.log( "ok so, we got the mini? ")
     if (!request.body.loggedIn && named && access) {
         request.body.message = "now you logged in"
 
+        console.log( "ok, now for the pool ")
         pool
         .query('SELECT * FROM users where username=$1 and password=$2', [named, access] )
         .then((resultado) => {
-
+            console.log( resultado )
+            console.log( "did I got this far? ")
             if( resultado.rows.length > 0 ){
-
+                console.log( "where did we get? ")
                 request.body.message = "granted log in"
                 const innit = true;
                 request.body.loggedIn = innit;
@@ -222,17 +224,28 @@ app.post('/mini', (request, response) => {
 
             }
 
-        })
+            else if( resultado.rows.length == 0  ){
+                request.body.message = " both user and username aren't present"
 
+                return response
+                    .status(202)
+                    .send( request.body)
+            }
+
+        }
+        
+        )
 
     } 
     else if( !named || !access ){
+        console.log( "ok, there is only one")
 
         request.body.message = "Username or Password missing"
         response.send(request.body);
 
     }
     else {
+        console.log( "ok so, this is when it doesnt match")
         request.body.message = "you are already logged in"
         
         response.send(request.body);

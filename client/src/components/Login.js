@@ -23,6 +23,44 @@ function Log(){
     setLoginCredentials( {...loginCredentials , message: e })
   }
 
+  const test = async (e) => {
+
+    e.preventDefault();
+
+    const {username , password} = loginCredentials;
+
+    const sendmethod = {
+      method: "POST",
+      body: JSON.stringify(loginCredentials),
+      
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    }
+
+    const response = await fetch('http://localhost:5000/mini', sendmethod );
+    const json = await response.json();
+
+    if(!json.loggedIn){
+
+      console.log(json)
+      loggedmessage(json.message)
+      setTimeout( 
+        function(){
+          history.push("/") 
+        }
+        ,3000)
+    }
+    else{
+      loggedmessage( json.message )
+    }
+
+
+}
+
+
+/* alternative fetch
   function test(e){
     e.preventDefault();
 
@@ -63,6 +101,7 @@ function Log(){
     })
 
   }
+*/
 
     return <div>
 

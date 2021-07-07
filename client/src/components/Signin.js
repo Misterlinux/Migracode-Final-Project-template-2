@@ -23,14 +23,11 @@ function Sign(){
     setLogin( {...Login , message: e })
   }
 
-  function signin(e){
+  const signin = async (e) => {
+
     e.preventDefault();
 
     const {name, email, password} = Login
-
-    console.log(Login)
-
-    console.log("ok so, after the click we get this")
 
     const sendmethod = {
       method: "POST",
@@ -41,28 +38,26 @@ function Sign(){
         'Accept': 'application/json'
       }
     }
-    fetch("http://localhost:5000/log", sendmethod)
-    .then( (res) => res.json() )
-    .then( ( message ) => {
 
-      if(!message.loggedIn){
+    const response = await fetch('http://localhost:5000/log', sendmethod );
+    const json = await response.json();
 
-        console.log(message)
-        loggedmessage(message.message)
-        setTimeout( 
-          function(){
-            history.push("/") 
-          }
-          ,3000)
-      }
-      else{
-        loggedmessage(message.message)
-      }
+    if(!json.loggedIn){
 
-    }      
+      console.log(json)
+      loggedmessage(json.message)
+      setTimeout( 
+        function(){
+          history.push("/") 
+        }
+        ,3000)
+    }
+    else{
+      loggedmessage( json.message )
+    }
 
-    )
-  }
+
+}
 
     return <div>
 
