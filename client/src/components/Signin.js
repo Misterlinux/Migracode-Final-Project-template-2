@@ -46,13 +46,14 @@ function Sign(){
 
       console.log(json)
       loggedmessage(json.message)
+
+    }
+    else{
+
       setTimeout( 
         function(){
           history.push("/") 
-        }
-        ,3000)
-    }
-    else{
+        },3000)
       loggedmessage( json.message )
     }
 

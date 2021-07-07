@@ -193,18 +193,16 @@ app.post('/mini', (request, response) => {
 
     const named = request.body.username;
     const access = request.body.password;
-    console.log( request.body.loggedIn )
-    console.log( "ok so, we got the mini? ")
-    if (!request.body.loggedIn && named && access) {
-        request.body.message = "now you logged in"
 
-        console.log( "ok, now for the pool ")
+    console.log( "ok so, we got the mini? ")
+    if (named && access) {
+
         pool
         .query('SELECT * FROM users where username=$1 and password=$2', [named, access] )
         .then((resultado) => {
-            console.log( resultado )
+
             console.log( "did I got this far? ")
-            if( resultado.rows.length > 0 ){
+            if( resultado.rows.length > 0 && !resultado.rows[0].loggedin ){
                 console.log( "where did we get? ")
                 request.body.message = "granted log in"
                 const innit = true;
@@ -223,9 +221,19 @@ app.post('/mini', (request, response) => {
 
 
             }
+            else if( resultado.rows.length > 0 && resultado.rows[0].loggedin ){
+                request.body.message = "already logged in "
+                const innit = false;
+                request.body.loggedIn = innit;
 
+                return response
+                    .status(202)
+                    .send( request.body)
+            }
             else if( resultado.rows.length == 0  ){
                 request.body.message = " both user and username aren't present"
+                const innit = false;
+                request.body.loggedIn = innit;
 
                 return response
                     .status(202)
@@ -238,14 +246,18 @@ app.post('/mini', (request, response) => {
 
     } 
     else if( !named || !access ){
-        console.log( "ok, there is only one")
+
+        const innit = false;
+        request.body.loggedIn = innit;
 
         request.body.message = "Username or Password missing"
         response.send(request.body);
 
     }
     else {
-        console.log( "ok so, this is when it doesnt match")
+
+        const innit = false;
+        request.body.loggedIn = innit;
         request.body.message = "you are already logged in"
         
         response.send(request.body);
