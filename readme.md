@@ -13,6 +13,8 @@ To Start:
 
 -the table in the .sql file is the one used in server.js
 
+-remember to use your own password for the database
+
 use of Pages:
 
 -Sign-in: to add new users, they should start as loggedin=True
